@@ -106,6 +106,7 @@ print("R2 Score de la validación cruzada es:", mse_1_cv)
 #Modelo 3 - Prediccion de Precio
 
 #Grid
+#Se intento probar con este modelo, sin embargo estuvimos 1h esperando y no conseguimos que termine de correr.
 
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestRegressor
