@@ -3,7 +3,9 @@ Este repositorio presenta un análisis exploratorio y predictivo de la base de l
 
 Este repositorio contiene:
 
-  Archivo base_train.csv: Contiene la unión de todas las bases de datos utilizadas en una.
+  Carpeta Bases_Airbnb: Dentro de esta se encuentran todas las bases utilizadas para el análisis.
+
+  Archivo Consolidacion_Base.py: Código en Python utilizado para la unión de todas las bases de datos utilizadas en una.
 
   Archivo Analisis_De_Datos.py : Código en Python que presenta el análisis exploratorio de datos, proporcionando insights detallados sobre la naturaleza de la base de datos.
 
