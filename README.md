@@ -3,7 +3,7 @@ Este repositorio presenta un análisis exploratorio y predictivo de la base de l
 
 Este repositorio contiene:
 
-  Carpeta Bases_Airbnb: Dentro de esta se encuentran todas las bases utilizadas para el análisis.
+  Link_a_base.http: link a la carpeta de Google Drive donde se encuentran los archivos de cada ciudad relevada, utilizados para el análisis.
 
   Archivo Consolidacion_Base.py: Código en Python utilizado para la unión de todas las bases de datos utilizadas en una.
 
