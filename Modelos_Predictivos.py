@@ -111,66 +111,7 @@ print("R2 Score de la validación cruzada es:", mse_1_cv)
 #Modelo 3 - Prediccion de Precio
 
 #Grid
-#Se intento probar con este modelo, sin embargo estuvimos 1h esperando y no conseguimos que termine de correr.
-
-from sklearn.model_selection import GridSearchCV
-from sklearn.ensemble import RandomForestRegressor
-
-#Definimos los hiperparámetros a ajustar
-param_grid = {
-    'max_depth': [4, 6, 8, 10],
-    'min_samples_split': [2, 5, 10],
-    'n_estimators': [50, 100, 200]
-}
-
-#Inicializamos el modelo
-rf = RandomForestRegressor(random_state=42)
-
-#Configuramos la búsqueda de hiperparámetros
-grid_search = GridSearchCV(estimator=rf, param_grid=param_grid, cv=5, scoring='r2')
-
-#Entrenamos la búsqueda de hiperparámetros
-grid_search.fit(X_train_scaled, y_train_scaled)
-
-#Obtenemos los mejores hiperparámetros
-best_params = grid_search.best_params_
-print("Mejores hiperparámetros:", best_params)
-
-#Evaluamos el modelo con los mejores hiperparámetros
-best_rf = grid_search.best_estimator_
-y_pred_rf = best_rf.predict(X_test_scaled)
-
-#Calculamos las métricas de evaluación
-mse_rf = mean_squared_error(y_test_scaled, y_pred_rf)
-mae_rf = mean_absolute_error(y_test_scaled, y_pred_rf)
-r2_rf = r2_score(y_test_scaled, y_pred_rf)
-
-print("MSE del Random Forest Regressor:", mse_rf)
-print("MAE del Random Forest Regressor:", mae_rf)
-print("R2 Score del Random Forest Regressor:", r2_rf)
-
-
-#Calculamos la importancia de las características
-#Podemos ver como destacan entre las variables que mas informacion aportan a la cantidad de huespedes, el review de locacion, la cantidad de ammenities y la cantidad de baños
-feature_importances = regr1.feature_importances_
-features = X_train.columns
-
-#Creamos un DataFrame para las importancias
-importances_df = pd.DataFrame({
-    'Feature': features,
-    'Importance': feature_importances
-})
-
-#Ordenamos el DataFrame por importancia
-importances_df = importances_df.sort_values(by='Importance', ascending=False)
-
-#Graficamos la importancia de las características
-plt.figure(figsize=(10, 6))
-sns.barplot(data=importances_df, x='Importance', y='Feature', palette='viridis')
-plt.title('Importancia de las Características')
-plt.xlabel('Importancia')
-plt.ylabel('Características')
-plt.show()
+#Se intento probar con este modelo, sin embargo estuvimos 1h esperando y no conseguimos que termine de correr. El codigo no esta dentro de este archivo. Lo mismo nos paso con otros modelos mas complejos.
 
 
 #Modelo 4 - Prediccion de Precio
@@ -183,6 +124,7 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+from sklearn.feature_selection import f_regression
 
 X = dflimpia.drop('price', axis=1)
 y = dflimpia['price']
@@ -268,7 +210,8 @@ print(lasso_coefficients)
 #Para ambos modelos se obtiene un r2 muy bajo de 0,2 aproximadamente
 
 
-#Modelo 4 - Prediccion de Disponibilidad dependiendo de todas las demás variables. Objetivo ver si se va a reservar el alojamiento. Se obtiene un r2 mejor para el modelo de 0,5. Sin embargo sigue resultando bajo
+#Modelo 5 - Prediccion de Disponibilidad dependiendo de todas las demás variables. Objetivo ver si se va a reservar el alojamiento.
+#Se obtiene un modelo con un r2 de 0,57
 
 #DecisionTreeRegressor
 
@@ -305,8 +248,9 @@ scaler_y = StandardScaler()
 y_train_scaled = scaler_y.fit_transform(y_train.values.reshape(-1, 1)).flatten()
 y_test_scaled = scaler_y.transform(y_test.values.reshape(-1, 1)).flatten()
 
+
 print("Pruebo el árbol de decisión de DecisionTreeRegressor")
-regr1 = DecisionTreeRegressor(max_depth=6, min_samples_split=6)
+regr1 = DecisionTreeRegressor(max_depth=10, min_samples_split=10)
 regr1.fit(X_train_scaled, y_train_scaled)
 y_pred1 = regr1.predict(X_test_scaled)
 mse_1 = mean_squared_error(y_test_scaled, y_pred1)
@@ -317,8 +261,7 @@ print("MAE del Decision Tree Regressor:", mae_1)
 print("R2 Score del Decision Tree Regressor:", r2_1)
 
 # Realizamos validación cruzada con 10-fold
-scores = cross_val_score(regr1, X, y, cv=10, scoring='r2')
+scores = cross_val_score(regr1, X, y, cv=5, scoring='r2')
 mse_1_cv = scores.mean()
 print("R2 Score de la validación cruzada es:", mse_1_cv)
-
 
