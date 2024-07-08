@@ -84,7 +84,7 @@ y_test_scaled = scaler_y.transform(y_test.values.reshape(-1, 1)).flatten()
 #Reentrenamos el modelo con los datos normalizados
 print("Pruebo el árbol de decisión de DecisionTreeRegressor")
 
-regr1 = DecisionTreeRegressor(max_depth=6, min_samples_split=6)
+regr1 = DecisionTreeRegressor(max_depth=10, min_samples_split=10)
 regr1.fit(X_train_scaled, y_train_scaled)
 
 y_pred1 = regr1.predict(X_test_scaled)
@@ -97,7 +97,12 @@ print("MSE del Decision Tree Regressor:", mse_1)
 print("MAE del Decision Tree Regressor:", mae_1)
 print("R2 Score del Decision Tree Regressor:", r2_1)
 
-#Realizamos validación cruzada con 10-fold
+#Realizamos validación cruzada con 5-fold
+
+# La distribucion de precio está sesgado hacia un extremo (la mayoría de los precios están en el rango bajo), esto indica un desbalanceo.
+# Tiene una cola larga hacia un lado y muchos outliers, una señal de desbalanceo.
+# Por lo tanto hacemos la validacion cruzada en 5 partes en vez de 10. 
+
 scores = cross_val_score(regr1, X, y, cv=10, scoring='r2')
 mse_1_cv = scores.mean()
 print("R2 Score de la validación cruzada es:", mse_1_cv)
